@@ -19,21 +19,19 @@ class WordCounter(Bolt):
         # Table name: Tweetwordcount 
         # you need to create both the database and the table in advance.
 	
-	checksql = "SELECT count(*) FROM tweetwordcount WHERE WORD = (%s)"
-	insertsql = "INSERT INTO tweetwordcount(WORD, COUNT) VALUES(%s)"
-        updatesql = "UPDATE tweetwordcount SET COUNT = (COUNT+1) WHERE WORD = (%s)"
+	checksql = "SELECT * FROM tweetwordcount WHERE word = (%s)"
+	insertsql = "INSERT INTO tweetwordcount (word, count) VALUES(%s, %s)"
+        updatesql = "UPDATE tweetwordcount SET count = (count+1) WHERE word = (%s)"
 
-	conn = psycopg2.connect("dbname=tcount user =postgres password=postgres")
+	conn = psycopg2.connect(database="tcount", user="postgres", password="postgres", host="localhost", port="5432")
 	cur = conn.cursor()
 	cur.execute(checksql, (word,))
 	
 	if cur.rowcount > 0:
 		cur.execute(updatesql, (word,))
 	else:
-		cur.execute(insertsql, (word,))
-	
-	updated_rows = cur.rowcount
-	self.log('RowsUpdated' % (updated_rows))
+		cur.execute(insertsql, (word, 1))
+
 	conn.commit()
 	cur.close()
 
