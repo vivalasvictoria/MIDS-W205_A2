@@ -13,6 +13,11 @@ if len(sys.argv) < 2:
         exit(1)
 
 arg = sys.argv[1]
+
+if "," not in arg:
+        print("separate numbers with comma")
+        exit(1)
+
 split = arg.split(",")
 k1 = split[0]
 k2 = split[1]
@@ -24,13 +29,12 @@ cmd = "SELECT * FROM tweetwordcount WHERE count >= (%s) AND count <= (%s) ORDER 
 cur.execute(cmd, (k1, k2,))
 records = cur.fetchall()
 if cur.rowcount > 0:
-	for row in records:
-			print("(%s, %s)" % (row[0], row[1]))
-			
+        for row in records:
+                        print("(%s, %s)" % (row[0], row[1]))
+
 else:
-	print("No results for this search.")
+        print("No results for this search.")
 
 
 conn.commit()
 conn.close()
-
