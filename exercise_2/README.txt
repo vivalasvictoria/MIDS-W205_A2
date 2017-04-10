@@ -25,3 +25,8 @@ python histogram.py 2,3
 or
 
 python histogram.py 9,10
+
+Histogram Bar Chart:
+To run the histogram_chart.py file, navigate to the exercise_2 directory of this repository and call the following command:
+
+python histogram_chart.py
